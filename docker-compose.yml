@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  reverse-proxy:
+    image: nginx:1.17.10
+    container_name: reverse-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
+      - ./reverse-proxy/logs:/var/log/nginx
+    depends_on:
+      - web
+  web:
+    image: web
+    container_name: web
+    build:
+      context: ./web
+    ports:
+      - "3000:3000"
+        
+#  opensearch:
+#    image: opensearchproject/opensearch:latest # This should be the same image used for opensearch-node1 to avoid issues
+#    container_name: opensearch
+#    environment:
+#      - "discovery.type=single-node"
+#      - "plugins.security.disabled=true"
+#      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_INITIAL_ADMIN_PASSWORD}
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - ./opensearch/opensearch-data:/usr/share/opensearch/data
+#  opensearch-dashboards:
+#    image: opensearchproject/opensearch-dashboards:latest
+#    container_name: opensearch-dashboards
+#    environment:
+#      - "OPENSEARCH_HOSTS=http://opensearch:9200"
+#    ports:
+#      - "5601:5601" # OpenSearch Dashboards (Kibana)
+#
+#  filebeat:
+#    image: docker.elastic.co/beats/filebeat:8.10.2
+#    container_name: filebeat
+#    user: root
+#    volumes:
+#      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+#      - ./reverse-proxy/logs:/var/log/nginx
+#    depends_on:
+#      - opensearch
+

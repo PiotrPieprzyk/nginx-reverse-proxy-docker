@@ -1,0 +1,14 @@
+{
+  "name": "nginx-docker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "serve": "node ./src/server.js"
+  },
+  "private": true,
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "type": "module"
+}
